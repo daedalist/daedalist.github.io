@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/ghostbook/static/css/main.4652ad71.chunk.css",
+    "main.css": "/ghostbook/static/css/main.9130ea26.chunk.css",
     "main.js": "/ghostbook/static/js/main.a630df95.chunk.js",
     "main.js.map": "/ghostbook/static/js/main.a630df95.chunk.js.map",
     "runtime-main.js": "/ghostbook/static/js/runtime-main.5c960f89.js",
@@ -8,13 +8,13 @@
     "static/js/2.89351127.chunk.js": "/ghostbook/static/js/2.89351127.chunk.js",
     "static/js/2.89351127.chunk.js.map": "/ghostbook/static/js/2.89351127.chunk.js.map",
     "index.html": "/ghostbook/index.html",
-    "static/css/main.4652ad71.chunk.css.map": "/ghostbook/static/css/main.4652ad71.chunk.css.map",
+    "static/css/main.9130ea26.chunk.css.map": "/ghostbook/static/css/main.9130ea26.chunk.css.map",
     "static/js/2.89351127.chunk.js.LICENSE.txt": "/ghostbook/static/js/2.89351127.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.5c960f89.js",
     "static/js/2.89351127.chunk.js",
-    "static/css/main.4652ad71.chunk.css",
+    "static/css/main.9130ea26.chunk.css",
     "static/js/main.a630df95.chunk.js"
   ]
 }
