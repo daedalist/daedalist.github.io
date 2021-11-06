@@ -9,8 +9,9 @@ The blog at neuralblender.com doesn't really explain what they're doing, but a
 little casual searching on the internet suggested that VQGAN+CLIP is probably a
 good place to start.
 
-DISCLAIMER: I am not an expert in this. This page is mostly a loose list of
-things that I did in order to get it working.
+**DISCLAIMER: I am not an expert in this. This page is mostly a loose list of
+things that I did in order to get it working. You take full responsibility if 
+something goes belly up while following this document.**
 
 ## Step 0: What I'm working from
 
@@ -78,6 +79,9 @@ quite stable these days.
 2. You can access the WSL file system in Windows Explorer by browsing to `\\wsl$`.
 
 ## Step 2: Install Python 3.9
+
+**WARNING: I think this manual install made life more difficult than it had to be.
+I recommend AGAINST doing this. Just leaving it here for posterity.**
 
 Ubuntu tends to be quite conservative with its package versions. As of this
 writing, it offers Python 3.6, and I wanted to be a little more up to date.
@@ -192,6 +196,10 @@ pip install imageio-ffmpeg
 
 ## Step 6: Run it on your GPU
 
+**NOTE: cuda only works on WSL if your're on the Windows Insider track. I have
+now reached my threshold for instability risk on my system, so I have not 
+proceeded any further beyond this point.**
+
 If you're looking at Task Manager, you might notice something weird:
 
 ![Task manager shows 100% CPU, but no GPU utilisation](task_manager_cpu100.png) 
@@ -199,4 +207,59 @@ If you're looking at Task Manager, you might notice something weird:
 I've got an RTX3090. Why am I doing ML tasks and not using those sweet, sweet
 Tensor cores?
 
-TODO: finish this experiment
+NOTE: I only have an NVIDIA card, which uses cuda, and that seems to be of
+choice for ML work.
+
+So I noticed this in the output of the `Hacer la ejecución...` cell:
+
+```
+Using device: cpu
+```
+
+And you can see how that happens in the source of that cell:
+
+```python
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+print('Using device:', device)
+```
+
+If you jump into python, you can verify:
+
+```python
+>>> import torch
+>>> torch.cuda.is_available()
+False
+```
+
+Fortunately, somebody's already done the hard work, and documented [5 Steps to
+Install PyTorch With CUDA 10.0](https://varhowto.com/install-pytorch-cuda-10-0/).
+
+The prerequisite there is to get CUDA 10.0 installed first. NVIDIA has some
+[WSL-specific instructions](https://docs.nvidia.com/cuda/wsl-user-guide/index.html#installing-nvidia-drivers).
+
+1. Install a version of the [NVIDIA display drivers](https://developer.nvidia.com/cuda/wsl/download)
+that contains the CUDA software.
+2. Add the `cuda` repo to your apt sources
+
+```bash
+wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin
+sudo mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600
+sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/7fa2af80.pub
+sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/ /"
+sudo apt-get update
+sudo apt-get -y install cuda
+```
+
+Is it working?
+```python
+>>> import torch
+>>> torch.cuda.is_available()
+False
+```
+
+Hmm. Maybe reinstall torch?
+
+```bash
+conda install pytorch torchvision cudatoolkit -c pytorch
+```
+
